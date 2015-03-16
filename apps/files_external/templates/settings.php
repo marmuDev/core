@@ -10,6 +10,7 @@
 				<th><?php p($l->t('Configuration')); ?></th>
 				<?php if ($_['isAdminPage']) print_unescaped('<th>'.$l->t('Available for').'</th>'); ?>
 				<th>&nbsp;</th>
+				<th>&nbsp;</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -80,9 +81,6 @@
 							<?php OCP\Util::addScript('files_external', $_['backends'][$mount['class']]['custom']); ?>
 						<?php endif; ?>
 					<?php endif; ?>
-					<?php if (isset($mount['mountOptions'])): ?>
-					<input type="hidden" class="mountOptions" value="<?php p(json_encode($mount['mountOptions'])) ?>" />
-					<?php endif; ?>
 					<?php if ($_['isAdminPage']): ?>
 					<?php if (isset($mount['priority'])): ?>
 					<input type="hidden" class="priority" value="<?php p($mount['priority']) ?>" />
@@ -99,8 +97,16 @@
 					<input type="hidden" class="applicableUsers" style="width:20em;" value=""/>
 				</td>
 				<?php endif; ?>
+				<td class="mountOptionsToggle <?php if (!isset($mount['mountpoint'])) { p('hidden'); } ?>"
+					><img
+						class="svg action"
+						title="<?php p($l->t('Advanced settings')); ?>"
+						alt="<?php p($l->t('Advanced settings')); ?>"
+						src="<?php print_unescaped(image_path('core', 'actions/settings.svg')); ?>" />
+					<input type="hidden" class="mountOptions" value="<?php isset($mount['mountOptions']) ? p(json_encode($mount['mountOptions'])) : '' ?>" />
+				</td>
 				<td <?php if (isset($mount['mountpoint'])): ?>class="remove"
-					<?php else: ?>style="visibility:hidden;"
+					<?php else: ?>class="hidden"
 					<?php endif ?>><img alt="<?php p($l->t('Delete')); ?>"
 										title="<?php p($l->t('Delete')); ?>"
 										class="svg action"
